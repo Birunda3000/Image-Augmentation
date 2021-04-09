@@ -37,6 +37,11 @@ lista_de_imagens = pipe.operar(image, 3)
 			* Valor padrão: 90
 		* fill:
 			* Valor padrão: 'edge'
+	* Exemplo de chamada
+```python
+pipe.add(Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
+```
+			
 * Shift
 	* Descrição
 	* Argumentos
