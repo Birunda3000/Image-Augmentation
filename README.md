@@ -1,5 +1,5 @@
 # Image-Augmentation
-Uma biblioteca para aumentar bases de dados de imagens
+Uma biblioteca para aumentar bases de dados de imagens, nela se cria um modelo...
 ## Utilização
 Para utilizar a biblioteca
 Primeiro se importa biblioteca
@@ -26,10 +26,17 @@ lista_de_imagens = pipe.operar(image, 3)
 
 
 ## Operações
+##### Toda operação vai receber um argumento " prob " que indica a probabilidade da operação ser aplicada ou não 
 * Rotação
 	* Descrição
+		*  Roda a imagem um numero de graus aleatorio no intervalo especificado
 	* Argumentos
-		* 
+		*  max_left_rotation:
+			* Valor padrão: 90
+		* max_right_rotation:
+			* Valor padrão: 90
+		* fill:
+			* Valor padrão: 'edge'
 * Shift
 	* Descrição
 	* Argumentos
