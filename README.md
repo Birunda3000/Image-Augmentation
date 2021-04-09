@@ -1,4 +1,5 @@
 # Image-Augmentation
+--EM DESENVOLVIMENTO--
 Uma biblioteca para aumentar bases de dados de imagens, nela se cria um modelo...
 ## Utilização
 Para utilizar a biblioteca
