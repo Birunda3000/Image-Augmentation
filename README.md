@@ -10,12 +10,12 @@ import Aug
 ```
 Declara-se o modelo
 ```python
-pipe = Pipe()
+pipe = Aug.Pipe()
 ```
 Usa-se o metodo .add para adicionar as operações que serão utilizadas (em ordem)
 ```python
-pipe.add(Random_Noise(0.7))
-pipe.add(Random_Erasing(prob=1, rectangle_area=0.3, repetitions=2))
+pipe.add(Aug.Random_Noise(0.7))
+pipe.add(Aug.Random_Erasing(prob=1, rectangle_area=0.3, repetitions=2))
 ```
 Passa a imagem e o numero de imagens a serem geradas como argumento da função operar, que retorna uma lista com as imagens geradas
 ```python
@@ -41,7 +41,7 @@ lista_de_imagens = pipe.operar(image, 3)
 			* Valor padrão: 'edge'
 	* Exemplo de chamada
 ```python
-pipe.add(Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
+pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 ```
 			
 * Shift
