@@ -240,7 +240,7 @@ def shear(image, max_shear_left = 0.8, max_shear_right = 0.7):#*****************
         image = image.crop((0, abs(shift_in_pixels), width, height))
         return image.resize((width, height), resample=Image.BICUBIC)
 
-def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#**************************************************** ERRO COM COR
+def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#***************************************************8
     if(3==3):#so para não tirar o tab
         grid_width = grid_width
         grid_height = grid_height
@@ -336,7 +336,7 @@ def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#**************
             generated_mesh.append([dimensions[i], polygons[i]])
         return image.transform(image.size, Image.MESH, generated_mesh, resample=Image.BICUBIC)
 
-def center_zoom(image, min_factor=1, max_factor=1):#***************************************************8
+def zoom(image, min_factor=1, max_factor=1):#***************************************************8
     min_factor = min_factor
     max_factor = max_factor
 
@@ -394,11 +394,11 @@ def random_erasing(image, rectangle_area=0.3, repetitions=1):#******************
     
     return image
 
-def shifts(image_in, horizontal_max=0.2, vertical_max=0.2, randomise=False, fill="nearest"):#*************************************************** erro colorida
-
-    width, height = image_in.size
+def shifts(image, horizontal_max=0.2, vertical_max=0.2, randomise=False, fill="nearest"):#***************************************************8
+    #print(image.size)
+    width, height = image.size
     
-    image = np.array(image_in).astype('uint8')
+    image = np.array(image).astype('uint8')
     
     if randomise:
         horizontal_shift = random.uniform(-abs( horizontal_max * width ), abs( horizontal_max * width ))
@@ -406,12 +406,8 @@ def shifts(image_in, horizontal_max=0.2, vertical_max=0.2, randomise=False, fill
     else:
         horizontal_shift = horizontal_max
         vertical_shift = vertical_max
-    
-    if image_in.mode == 'RGB':
-        image = shift(image, [vertical_shift, horizontal_shift, 0],  cval=0, mode=fill)
-    else:
-        image = shift(image, [vertical_shift, horizontal_shift],  cval=0, mode=fill)
-    
+        
+    image = shift(image, [vertical_shift, horizontal_shift],  cval=0, mode=fill)
     return Image.fromarray(image)
 
 
@@ -434,306 +430,95 @@ def gaussian(image, sig=1.0, fill='nearest' ):#*********************************
 def random_noise(image, mode1='s&p'):#***************************************************8
     return util.random_noise(image, mode=mode1, seed=None, clip=True)
 
+def apply_or_not(probability=0):#***************************************************8
+    if probability > 1 or  probability < 0:
+        raise Exception('probability must be less than or equal to 1 and greater than or equal to 0')
+    if probability >= random.uniform(0,1):
+        return True
+    else:
+        return False
 
+def pipe(image, num_pass, brilho_p=0, color_p=0, contrast_p=0, invert_p=0, skew_p=0, flip_p=0, shear_p=0, distort_p=0, zoom_p=0, zoom_random_p=0, 
+         random_erasing_p=0, grey_erosion_p=0, shifts_p=0, rotation_p=0, gaussian_p=0, edge_p=0, random_noise_p=0):#PIL image    #***************************************************8    
+    for i in range(num_pass):
 
+        if (apply_or_not(brilho_p)):
+            pass
+            image = brilho(image, 3, 3)
 
-# Databricks notebook source
-import numpy as np
-from PIL import Image, ImageOps, ImageEnhance
-import math
-from math import floor, ceil
-import random
-import pandas as pd
-from IPython.display import display
+        if (apply_or_not(color_p)):
+            pass
+            image = color(image, min_factor=1, max_factor=1)
 
-from scipy.ndimage import zoom
-from scipy.ndimage import grey_erosion
-from scipy.ndimage import gaussian_filter
-from scipy.ndimage.interpolation import shift
+        if (apply_or_not(contrast_p)):
+            pass
+            image = contrast(image, min_factor=1, max_factor=1)
 
-from skimage import transform
-from skimage import util
+        if (apply_or_not(edge_p)):#****operação desativada***********
+            pass
+            #image = Image.fromarray(np.uint8(edge(np.array(image).astype('uint8'))*255 ))    
 
-# vetor de string:
-
-#cada elemento do vetor vc executa uma função/ parametro dela tbm
-import random
-from numpy import select
-
-from numpy.random import laplace
-
-# COMMAND ----------
-
-import numpy as np
-import matplotlib.pyplot as plt
-import os
-import cv2
-#from tqdm import tqdm
-
-import os
-import pathlib
-import random
-
-# import tensorflow as tf
-# from tensorflow.keras.preprocessing.image import ImageDataGenerator
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-# from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization
-# from tensorflow.keras import layers, models, utils
-
-from skimage import transform
-
-from random import randint
-
-from skimage import util
-
-# COMMAND ----------
-
-import Aug
-
-# COMMAND ----------
-
-class Operacao:
-    prob = 0
-    def __init__(self, prob):
+        if (apply_or_not(grey_erosion_p)):#****operação desativada**************
+            pass
+            #image = Image.fromarray(np.uint8(grey_erosion(np.array(image).astype('uint8'),size=(3,3))*255 ))
         
-        if prob > 1 or  prob < 0:
-            raise Exception('prob must be less than or equal to 1 and greater than or equal to 0')
-        else:
-            self.prob = prob
+        if (apply_or_not(invert_p)):
+            pass
+            #image = Image.fromarray(np.uint8(invert(np.array(image).astype('uint8'))*255))
+            image = invert(image)
+            
+        if (apply_or_not(skew_p)):
+            pass
+            image = skew(image, skew_type='RANDOM', magnitude=1)
 
-    def execute(self):
-            raise NotImplementedError("abs class")
-    def get_class_name(self):
-        return self.__class__.__name__
-    def get_dict_atrs(self):
-        return self.__dict__
+        if (apply_or_not(flip_p)):
+            pass
+            image = flip(image, 'RANDOM')
 
-# COMMAND ----------
+        if (apply_or_not(shear_p)):
+            pass
+            image = shear(image, max_shear_left = 30, max_shear_right = 30)
 
-class Skew (Operacao):
-    def __init__(self, prob, skew_type='RANDOM', magnitude=0.5):
-        Operacao.__init__(self, prob)
-        self.skew_type = skew_type
-        self.magnitude = magnitude
-    def execute(self, image):
-        return skew(image, skew_type=self.skew_type, magnitude=self.magnitude)
+        if (apply_or_not(distort_p)):
+            pass
+            image = distort(image, grid_width=4, grid_height=4, magnitude=5)
 
-# COMMAND ----------
+        if (apply_or_not(zoom_p)):
+            pass
+            image = zoom(image, min_factor=1, max_factor=2)
 
-class Invert (Operacao):
-    def __init__(self, prob):
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return ImageOps.invert(image)
+        if (apply_or_not(zoom_random_p)):
+            image = zoom_random(image, percentage_area=1, randomise=False)
+            pass
+        if (apply_or_not(random_erasing_p)):
+            pass
+            image = random_erasing(image, rectangle_area=0.4)
 
-# COMMAND ----------
+        if (apply_or_not(shifts_p)):
+            pass
+            #image = Image.fromarray(np.uint8(shifts(np.array(image).astype('uint8'), horizontal_max=0.3, vertical_max=0.3)*255 ))
+            image = shifts(image, horizontal_max=0.3, vertical_max=0.3)
 
-class Rotacao(Operacao):
-    def __init__(self, prob, max_left_rotation=90, max_right_rotation=90, fill='edge'):
-        Operacao.__init__(self, prob)
-        self.max_left_rotation = max_left_rotation 
-        self.max_right_rotation = max_right_rotation
-        self.fill = fill #constant`, `edge`, `wrap`, `reflect` or `symmetric`
-    def execute(self, image):    
-        return Image.fromarray(np.uint8(rotation(np.array(image).astype('uint8'), max_left_rotation=self.max_left_rotation, max_right_rotation=self.max_right_rotation)*255 ))
+        if (apply_or_not(rotation_p)):
+            pass
+            image = Image.fromarray(np.uint8(rotation(np.array(image).astype('uint8'),max_left_rotation=80, max_right_rotation=80)*255 ))
 
-# COMMAND ----------
+        if (apply_or_not(gaussian_p)):#****
+            pass
+            image = gaussian(image)
 
-class Zoom_Random(Operacao):
-    def __init__(self, prob, percentage_area=1, randomise=False):
-        self.percentage_area = percentage_area
-        self.randomise       = randomise
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return zoom_random(image, self.percentage_area, self.randomise)
+        if (apply_or_not(random_noise_p)):
+            pass
+            image = Image.fromarray(np.uint8(random_noise(np.array(image).astype('uint8'))*255 ))   
+    return image
 
-# COMMAND ----------
-
-class Random_Noise(Operacao):
-    def __init__(self, prob, mode='s&p'):
-        self.mode = mode#gaussian,localvar,poisson,salt,pepper,s&p,speckle
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return Image.fromarray(np.uint8(random_noise(np.array(image).astype('uint8'))*255 ))
-
-# COMMAND ----------
-
-class Gaussian(Operacao):# argumentos-----------------------------------
-    def __init__(self, prob, sig=2.0, fill='nearest'):
-        self.sig=sig
-        self.fill = fill
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return gaussian(image, sig=self.sig, fill=self.fill)
-
-# COMMAND ----------
-
-class Random_Erasing(Operacao):
-    def __init__(self, prob, rectangle_area=0.4, repetitions=1):
-        Operacao.__init__(self, prob)
-        self.rectangle_area = rectangle_area
-        self.repetitions = repetitions
-    def execute(self, image):
-        return random_erasing(image, rectangle_area = self.rectangle_area, repetitions=self.repetitions)
-        
-
-# COMMAND ----------
-
-class Shift(Operacao):
-    def __init__(self, prob, horizontal_max=0.2, vertical_max=0.2, randomise=False, fill='nearest'):
-        Operacao.__init__(self, prob)
-        self.horizontal_max = horizontal_max
-        self.vertical_max = vertical_max
-        self.randomise = randomise
-        self.fill = fill
-    def execute(self, image):        
-        return shifts(image, horizontal_max=self.horizontal_max, vertical_max=self.vertical_max, randomise=self.randomise, fill=self.fill)
-
-# COMMAND ----------
-
-class Zoom(Operacao):
-    def __init__(self, prob, min_factor=1, max_factor=2):
-        self.min_factor = min_factor
-        self.max_factor = max_factor
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return center_zoom(image, min_factor=self.min_factor, max_factor=self.max_factor)
-
-# COMMAND ----------
-
-class Distort(Operacao):
-    def __init__(self, prob, grid_width=4, grid_height=4, magnitude=5):
-        self.grid_width  = grid_width
-        self.grid_height = grid_height
-        self.magnitude   = magnitude
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return distort(image, grid_width=self.grid_width, grid_height=self.grid_height, magnitude=self.magnitude)
-
-# COMMAND ----------
-
-class Shear(Operacao):
-    def __init__(self, prob, max_shear_left = 4, max_shear_right=4):
-        self.max_shear_left  = max_shear_left
-        self.max_shear_right = max_shear_right
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return shear(image,  max_shear_left=self.max_shear_left,  max_shear_right=self.max_shear_right)
-
-# COMMAND ----------
-
-class Flip(Operacao):
-    def __init__(self, prob, top_bottom_left_right='RANDOM'):
-        self.top_bottom_left_right  = top_bottom_left_right
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return flip(image,  top_bottom_left_right=self.top_bottom_left_right)
-
-# COMMAND ----------
-
-class Skew(Operacao):
-    def __init__(self, prob, skew_type='RANDOM', magnitude=1):
-        self.skew_type = skew_type
-        self.magnitude = magnitude
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return skew(image,  skew_type=self.skew_type,  magnitude=self.magnitude)
-
-# COMMAND ----------
-
-class Grey_Erosion(Operacao):#******adicionar argumentos
-    def __init__(self, prob):
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return Image.fromarray(np.uint8(grey_erosion(np.array(image).astype('uint8'),size=(3,3))*255 ))
-
-# COMMAND ----------
-
-'''class Edge(Operacao):#******adicionar argumentos
-    def __init__(self, prob, minVal=100, maxVal=100):
-        Operacao.__init__(self, prob)
-        self.minVal=minVal
-        self.maxVal=maxVal
-    def execute(self, image):
-        return Image.fromarray(np.uint8(Aug.edge(np.array(image).astype('uint8'), minVal=self.minVal, maxVal=self.maxVal)*255 ))'''
-class Edge(Operacao):
-    def __init__(self, prob):
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return Image.fromarray(np.uint8(edge(np.array(image).astype('uint8'))*255 ))
-
-# COMMAND ----------
-
-class Contrast(Operacao):
-    def __init__(self, prob, min_factor=1, max_factor=1):
-        self.min_factor = min_factor
-        self.max_factor = max_factor
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return contrast(image, min_factor=self.min_factor, max_factor=self.max_factor)
-
-# COMMAND ----------
-
-class Color(Operacao):
-    def __init__(self, prob, min_factor=1, max_factor=1):
-        self.min_factor = min_factor
-        self.max_factor = max_factor
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return color(image, min_factor=self.min_factor, max_factor=self.max_factor)
-
-# COMMAND ----------
-
-class Brilho(Operacao):
-    def __init__(self, prob, min_factor=1, max_factor=1):
-        self.min_factor = min_factor
-        self.max_factor = max_factor
-        Operacao.__init__(self, prob)
-    def execute(self, image):
-        return brilho(image, min_factor=self.min_factor, max_factor=self.max_factor)
-
-# COMMAND ----------
-
-class Pipe:
-    def __init__(self):
-        self.lista_de_operacoes = []
-    def add(self, objeto):
-        self.lista_de_operacoes.append(objeto)
-    def remove(self, posicao = -1):
-        self.lista_de_operacoes.pop(posicao)
-    def replace(self, index, objeto):
-        self.lista_de_operacoes[index] = objeto
-    def operar(self, image:list, class_img:int, vezes = 1):
-        image = Image.fromarray(image)
-        
-        aux_2 = []
-        alterou = False
-        for i in range(vezes):
-            aux = image.copy()
-            alterou = False #ta uma bosta-----------------------
-            for operacao in self.lista_de_operacoes:
-                
-                if operacao.prob >= random.uniform(0,1):
-                    aux = operacao.execute(aux)
-                    alterou = True
-                else:
-                    continue
-            if alterou:
-                # aux_2.append(aux)
-                aux_2.append( [aux, class_img] )
-                #alterou = False #isso aqui é o fino-----------------------------
-            else:
-                continue
-        return aux_2
-
-    def print(self):
-        print(f"Operações:")
-        for operacao in self.lista_de_operacoes:
-            atributos = operacao.get_dict_atrs()
-            op = {"Operação": operacao.get_class_name()}
-            op.update(atributos)
-            tabela = pd.DataFrame(data= op, index = [""])
-            display(tabela)
-        print()
-
+def image_augmentation(image, class_num, images_per_image=1, brilho_p=0, color_p=0, contrast_p=0, invert_p=0, skew_p=0, flip_p=0, shear_p=0, distort_p=0, 
+                       zoom_p=0, zoom_random_p=0, random_erasing_p=0, grey_erosion_p=0, shifts_p=0, rotation_p=0, gaussian_p=0, edge_p=0,random_noise_p=0):#PIL image #***************************************************8
+ #IMG_SIZE, rotation, shifts, edge, blur, erosion, invert, random_noise):
+    aug_img = []
+    pil_image = Image.fromarray(image)
+    for i in range(images_per_image):
+        aug_img.append([  np.array( pipe(pil_image, 1, brilho_p, color_p, contrast_p, invert_p, skew_p, flip_p, shear_p, 
+                                         distort_p, zoom_p, zoom_random_p, random_erasing_p, grey_erosion_p, shifts_p, 
+                                         rotation_p, gaussian_p, edge_p, random_noise_p=0) ).astype('uint8'), class_num ] )    
+    return aug_img
