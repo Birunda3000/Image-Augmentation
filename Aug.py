@@ -721,7 +721,11 @@ class Pipe:
                     continue
             if alterou:
                 # aux_2.append(aux)
-                aux_2.append( [aux, class_img] )
+                #aux_2.append( [      aux    , class_img] )
+                
+                aux_2.append( [     np.uint8(np.array(aux).astype('uint8')*255)    , class_img] )
+
+                
                 #alterou = False #isso aqui é o fino-----------------------------
             else:
                 continue
