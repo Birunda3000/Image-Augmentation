@@ -740,4 +740,3 @@ class Pipe:
             tabela = pd.DataFrame(data= op, index = [""])
             display(tabela)
         print()
-
