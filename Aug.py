@@ -721,18 +721,24 @@ class Pipe:
                     alterou = True
                 else:
                     continue
+#--------------------------------------------------------------------------------------------ATENÇÃO            
             if alterou:
                 # aux_2.append(aux)
                 #aux_2.append( [      aux    , class_img] )
                 if class_img == -1:
-                    aux_2.append(np.uint8(np.array(aux).astype('uint8')*255))
+                    #aux_2.append(np.uint8(np.array(aux).astype('uint8')*255))
+                    aux_2.append( aux )
                 else:
-                    aux_2.append([np.uint8(np.array(aux).astype('uint8')*255),class_img])
+                    #aux_2.append([np.uint8(np.array(aux).astype('uint8')*255),class_img])
+                    
+                    aux_2.append([aux,class_img])
+                    
+                    
                 #alterou = False #isso aqui é o fino-----------------------------
             else:
                 continue
         return aux_2
-
+#----------------------------------------------------------------------------------------------ATENÇÃO
     def print(self):
         print(f"Operações:")
         aux = True

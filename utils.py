@@ -51,13 +51,13 @@ class augmentor(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        if True:#---------------------------------------------------------------------------retirar
-            for i in range(len(self.dados)):
-                self.result.append(self.dados[i])
-                self.result += self.pipe.operar(self.dados[i][0], self.dados[i][1], self.times)
-            print('Thread {}: Executada com sucesso'.format(self.meu_id))
-            global result
-            result += self.result
+        for i in range(len(self.dados)):
+            self.result.append(self.dados[i])
+            self.result += self.pipe.operar(self.dados[i][0], self.dados[i][1], self.times)
+        print('Thread {}: Executada com sucesso'.format(self.meu_id))
+        
+        global result
+        result += self.result
 
 def dividir_base(base, n):  # n = numero de itens por thread
     for i in range(0, len(base), n):
@@ -66,6 +66,8 @@ def dividir_base(base, n):  # n = numero de itens por thread
 result = []
 
 def call_thread(img_per_thread, data, pipe_instance, image_per_image):
+    
+    global result
     
     threads = []
     data_array = list(dividir_base(data, img_per_thread))
@@ -78,14 +80,15 @@ def call_thread(img_per_thread, data, pipe_instance, image_per_image):
         new_augmentor.start()
     for t in threads:
         t.join()
-    
-
+        
+#    for t in threads:
+#        result +=  t.result
     
 #trecho a ser analisado
 
 #Original
-    return result
+    #return result
 
-    #x = result #quando se retorna result direto e se chama 2 vezes no codigo principal o retorno volta com o resultado das execuções anteriores 
-    #result = []
-    #return x
+    x = result #quando se retorna result direto e se chama 2 vezes no codigo principal o retorno volta com o resultado das execuções anteriores 
+    result = []
+    return x
