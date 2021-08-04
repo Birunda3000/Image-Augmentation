@@ -30,10 +30,12 @@ pipe.add( Aug.Shift(prob=unive, horizontal_max=0.8, vertical_max=0.8, randomise=
 #12
 pipe.add( Aug.Rotacao(prob=unive, max_left_rotation=90, max_right_rotation=90, fill='edge') )
 #13
-pipe.add( Aug.Edge(prob=unive) )
+pipe.add( Aug.Gaussian(prob=unive) )
 #14
-pipe.add( Aug.Grey_Erosion(prob=unive) )
+pipe.add( Aug.Edge(prob=unive) )
 #15
+pipe.add( Aug.Grey_Erosion(prob=unive) )
+#16
 #_______________________________________________________Pipe exemplo 2_______________________________________________________
 pipe2 = Aug.Pipe()
 unive_2 = 0.3
