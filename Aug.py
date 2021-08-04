@@ -14,6 +14,10 @@ from skimage import util
 from cv2 import Canny
 import cv2
 
+from prettytable import PrettyTable
+from prettytable import MSWORD_FRIENDLY
+
+
 def skew(image, skew_type='RANDOM', magnitude=0.5):#***************************************************8        
     #"TILT", "TILT_LEFT_RIGHT", "TILT_TOP_BOTTOM", "CORNER", "ALL"
     
@@ -241,100 +245,99 @@ def shear(image, max_shear_left = 0.8, max_shear_right = 0.7):#*****************
         return image.resize((width, height), resample=Image.BICUBIC)
 
 def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#**************************************************** ERRO COM COR
-    if(3==3):#so para não tirar o tab
-        grid_width = grid_width
-        grid_height = grid_height
-        magnitude = abs(magnitude)
-        # TODO: Implement non-random magnitude.
-        #randomise_magnitude = True
+    grid_width = grid_width
+    grid_height = grid_height
+    magnitude = abs(magnitude)
+    # TODO: Implement non-random magnitude.
+    #randomise_magnitude = True
 
-        w, h = image.size
+    w, h = image.size
 
-        horizontal_tiles = grid_width
-        vertical_tiles = grid_height
+    horizontal_tiles = grid_width
+    vertical_tiles = grid_height
 
-        width_of_square = int(floor(w / float(horizontal_tiles)))
-        height_of_square = int(floor(h / float(vertical_tiles)))
+    width_of_square = int(floor(w / float(horizontal_tiles)))
+    height_of_square = int(floor(h / float(vertical_tiles)))
 
-        width_of_last_square = w - (width_of_square * (horizontal_tiles - 1))
-        height_of_last_square = h - (height_of_square * (vertical_tiles - 1))
+    width_of_last_square = w - (width_of_square * (horizontal_tiles - 1))
+    height_of_last_square = h - (height_of_square * (vertical_tiles - 1))
 
-        dimensions = []
+    dimensions = []
 
-        for vertical_tile in range(vertical_tiles):
-            for horizontal_tile in range(horizontal_tiles):
-                if vertical_tile == (vertical_tiles - 1) and horizontal_tile == (horizontal_tiles - 1):
-                    dimensions.append([horizontal_tile * width_of_square,
-                                       vertical_tile * height_of_square,
-                                       width_of_last_square + (horizontal_tile * width_of_square),
-                                       height_of_last_square + (height_of_square * vertical_tile)])
-                elif vertical_tile == (vertical_tiles - 1):
-                    dimensions.append([horizontal_tile * width_of_square,
-                                       vertical_tile * height_of_square,
-                                       width_of_square + (horizontal_tile * width_of_square),
-                                       height_of_last_square + (height_of_square * vertical_tile)])
-                elif horizontal_tile == (horizontal_tiles - 1):
-                    dimensions.append([horizontal_tile * width_of_square,
-                                       vertical_tile * height_of_square,
-                                       width_of_last_square + (horizontal_tile * width_of_square),
-                                       height_of_square + (height_of_square * vertical_tile)])
-                else:
-                    dimensions.append([horizontal_tile * width_of_square,
-                                       vertical_tile * height_of_square,
-                                       width_of_square + (horizontal_tile * width_of_square),
-                                       height_of_square + (height_of_square * vertical_tile)])
+    for vertical_tile in range(vertical_tiles):
+        for horizontal_tile in range(horizontal_tiles):
+            if vertical_tile == (vertical_tiles - 1) and horizontal_tile == (horizontal_tiles - 1):
+                dimensions.append([horizontal_tile * width_of_square,
+                                   vertical_tile * height_of_square,
+                                   width_of_last_square + (horizontal_tile * width_of_square),
+                                   height_of_last_square + (height_of_square * vertical_tile)])
+            elif vertical_tile == (vertical_tiles - 1):
+                dimensions.append([horizontal_tile * width_of_square,
+                                   vertical_tile * height_of_square,
+                                   width_of_square + (horizontal_tile * width_of_square),
+                                   height_of_last_square + (height_of_square * vertical_tile)])
+            elif horizontal_tile == (horizontal_tiles - 1):
+                dimensions.append([horizontal_tile * width_of_square,
+                                   vertical_tile * height_of_square,
+                                   width_of_last_square + (horizontal_tile * width_of_square),
+                                   height_of_square + (height_of_square * vertical_tile)])
+            else:
+                dimensions.append([horizontal_tile * width_of_square,
+                                   vertical_tile * height_of_square,
+                                   width_of_square + (horizontal_tile * width_of_square),
+                                   height_of_square + (height_of_square * vertical_tile)])
 
-        # For loop that generates polygons could be rewritten, but maybe harder to read?
-        # polygons = [x1,y1, x1,y2, x2,y2, x2,y1 for x1,y1, x2,y2 in dimensions]
+    # For loop that generates polygons could be rewritten, but maybe harder to read?
+    # polygons = [x1,y1, x1,y2, x2,y2, x2,y1 for x1,y1, x2,y2 in dimensions]
 
-        # last_column = [(horizontal_tiles - 1) + horizontal_tiles * i for i in range(vertical_tiles)]
-        last_column = []
-        for i in range(vertical_tiles):
-            last_column.append((horizontal_tiles-1)+horizontal_tiles*i)
+    # last_column = [(horizontal_tiles - 1) + horizontal_tiles * i for i in range(vertical_tiles)]
+    last_column = []
+    for i in range(vertical_tiles):
+        last_column.append((horizontal_tiles-1)+horizontal_tiles*i)
 
-        last_row = range((horizontal_tiles * vertical_tiles) - horizontal_tiles, horizontal_tiles * vertical_tiles)
+    last_row = range((horizontal_tiles * vertical_tiles) - horizontal_tiles, horizontal_tiles * vertical_tiles)
 
-        polygons = []
-        for x1, y1, x2, y2 in dimensions:
-            polygons.append([x1, y1, x1, y2, x2, y2, x2, y1])
+    polygons = []
+    for x1, y1, x2, y2 in dimensions:
+        polygons.append([x1, y1, x1, y2, x2, y2, x2, y1])
 
-        polygon_indices = []
-        for i in range((vertical_tiles * horizontal_tiles) - 1):
-            if i not in last_row and i not in last_column:
-                polygon_indices.append([i, i + 1, i + horizontal_tiles, i + 1 + horizontal_tiles])
+    polygon_indices = []
+    for i in range((vertical_tiles * horizontal_tiles) - 1):
+        if i not in last_row and i not in last_column:
+            polygon_indices.append([i, i + 1, i + horizontal_tiles, i + 1 + horizontal_tiles])
 
-        for a, b, c, d in polygon_indices:
-            dx = random.randint(-magnitude, magnitude)
-            dy = random.randint(-magnitude, magnitude)
+    for a, b, c, d in polygon_indices:
+        dx = random.randint(-magnitude, magnitude)
+        dy = random.randint(-magnitude, magnitude)
 
-            x1, y1, x2, y2, x3, y3, x4, y4 = polygons[a]
-            polygons[a] = [x1, y1,
-                            x2, y2,
-                            x3 + dx, y3 + dy,
-                            x4, y4]
+        x1, y1, x2, y2, x3, y3, x4, y4 = polygons[a]
+        polygons[a] = [x1, y1,
+                        x2, y2,
+                        x3 + dx, y3 + dy,
+                        x4, y4]
 
-            x1, y1, x2, y2, x3, y3, x4, y4 = polygons[b]
-            polygons[b] = [x1, y1,
-                            x2 + dx, y2 + dy,
-                            x3, y3,
-                            x4, y4]
+        x1, y1, x2, y2, x3, y3, x4, y4 = polygons[b]
+        polygons[b] = [x1, y1,
+                        x2 + dx, y2 + dy,
+                        x3, y3,
+                        x4, y4]
 
-            x1, y1, x2, y2, x3, y3, x4, y4 = polygons[c]
-            polygons[c] = [x1, y1,
-                            x2, y2,
-                            x3, y3,
-                            x4 + dx, y4 + dy]
+        x1, y1, x2, y2, x3, y3, x4, y4 = polygons[c]
+        polygons[c] = [x1, y1,
+                        x2, y2,
+                        x3, y3,
+                        x4 + dx, y4 + dy]
 
-            x1, y1, x2, y2, x3, y3, x4, y4 = polygons[d]
-            polygons[d] = [x1 + dx, y1 + dy,
-                            x2, y2,
-                            x3, y3,
-                            x4, y4]
+        x1, y1, x2, y2, x3, y3, x4, y4 = polygons[d]
+        polygons[d] = [x1 + dx, y1 + dy,
+                        x2, y2,
+                        x3, y3,
+                        x4, y4]
 
-        generated_mesh = []
-        for i in range(len(dimensions)):
-            generated_mesh.append([dimensions[i], polygons[i]])
-        return image.transform(image.size, Image.MESH, generated_mesh, resample=Image.BICUBIC)
+    generated_mesh = []
+    for i in range(len(dimensions)):
+        generated_mesh.append([dimensions[i], polygons[i]])
+    return image.transform(image.size, Image.MESH, generated_mesh, resample=Image.BICUBIC)
 
 def center_zoom(image, min_factor=1, max_factor=1):#***************************************************8
     min_factor = min_factor
@@ -494,7 +497,7 @@ import Aug
 # COMMAND ----------
 
 class Operacao:
-    prob = 0
+    #prob = 0
     def __init__(self, prob):
         
         if prob > 1 or  prob < 0:
@@ -542,9 +545,9 @@ class Rotacao(Operacao):
 
 class Zoom_Random(Operacao):
     def __init__(self, prob, percentage_area=1, randomise=False):
+        Operacao.__init__(self, prob)
         self.percentage_area = percentage_area
         self.randomise       = randomise
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return zoom_random(image, self.percentage_area, self.randomise)
 
@@ -552,8 +555,8 @@ class Zoom_Random(Operacao):
 
 class Random_Noise(Operacao):
     def __init__(self, prob, mode='s&p'):
-        self.mode = mode#gaussian,localvar,poisson,salt,pepper,s&p,speckle
         Operacao.__init__(self, prob)
+        self.mode = mode#gaussian,localvar,poisson,salt,pepper,s&p,speckle
     def execute(self, image):
         return Image.fromarray(np.uint8(random_noise(np.array(image).astype('uint8'))*255 ))
 
@@ -561,9 +564,9 @@ class Random_Noise(Operacao):
 
 class Gaussian(Operacao):# argumentos-----------------------------------
     def __init__(self, prob, sig=2.0, fill='nearest'):
+        Operacao.__init__(self, prob)
         self.sig=sig
         self.fill = fill
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return gaussian(image, sig=self.sig, fill=self.fill)
 
@@ -594,9 +597,9 @@ class Shift(Operacao):
 
 class Zoom(Operacao):
     def __init__(self, prob, min_factor=1, max_factor=2):
+        Operacao.__init__(self, prob)
         self.min_factor = min_factor
         self.max_factor = max_factor
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return center_zoom(image, min_factor=self.min_factor, max_factor=self.max_factor)
 
@@ -604,10 +607,10 @@ class Zoom(Operacao):
 
 class Distort(Operacao):
     def __init__(self, prob, grid_width=4, grid_height=4, magnitude=5):
+        Operacao.__init__(self, prob)
         self.grid_width  = grid_width
         self.grid_height = grid_height
         self.magnitude   = magnitude
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return distort(image, grid_width=self.grid_width, grid_height=self.grid_height, magnitude=self.magnitude)
 
@@ -615,9 +618,9 @@ class Distort(Operacao):
 
 class Shear(Operacao):
     def __init__(self, prob, max_shear_left = 4, max_shear_right=4):
+        Operacao.__init__(self, prob)
         self.max_shear_left  = max_shear_left
         self.max_shear_right = max_shear_right
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return shear(image,  max_shear_left=self.max_shear_left,  max_shear_right=self.max_shear_right)
 
@@ -625,8 +628,8 @@ class Shear(Operacao):
 
 class Flip(Operacao):
     def __init__(self, prob, top_bottom_left_right='RANDOM'):
-        self.top_bottom_left_right  = top_bottom_left_right
         Operacao.__init__(self, prob)
+        self.top_bottom_left_right  = top_bottom_left_right
     def execute(self, image):
         return flip(image,  top_bottom_left_right=self.top_bottom_left_right)
 
@@ -634,9 +637,9 @@ class Flip(Operacao):
 
 class Skew(Operacao):
     def __init__(self, prob, skew_type='RANDOM', magnitude=1):
+        Operacao.__init__(self, prob)
         self.skew_type = skew_type
         self.magnitude = magnitude
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return skew(image,  skew_type=self.skew_type,  magnitude=self.magnitude)
 
@@ -667,9 +670,9 @@ class Edge(Operacao):
 
 class Contrast(Operacao):
     def __init__(self, prob, min_factor=1, max_factor=1):
+        Operacao.__init__(self, prob)
         self.min_factor = min_factor
         self.max_factor = max_factor
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return contrast(image, min_factor=self.min_factor, max_factor=self.max_factor)
 
@@ -677,9 +680,9 @@ class Contrast(Operacao):
 
 class Color(Operacao):
     def __init__(self, prob, min_factor=1, max_factor=1):
+        Operacao.__init__(self, prob)
         self.min_factor = min_factor
         self.max_factor = max_factor
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return color(image, min_factor=self.min_factor, max_factor=self.max_factor)
 
@@ -687,9 +690,9 @@ class Color(Operacao):
 
 class Brilho(Operacao):
     def __init__(self, prob, min_factor=1, max_factor=1):
+        Operacao.__init__(self, prob)
         self.min_factor = min_factor
         self.max_factor = max_factor
-        Operacao.__init__(self, prob)
     def execute(self, image):
         return brilho(image, min_factor=self.min_factor, max_factor=self.max_factor)
 
@@ -704,9 +707,8 @@ class Pipe:
         self.lista_de_operacoes.pop(posicao)
     def replace(self, index, objeto):
         self.lista_de_operacoes[index] = objeto
-    def operar(self, image:list, class_img:int, vezes = 1):
+    def operar(self, image:list, class_img : int = -1, vezes = 1):#Não retorna a imagem original | Se a imagem não for modificada não é adicionada
         image = Image.fromarray(image)
-        
         aux_2 = []
         alterou = False
         for i in range(vezes):
@@ -722,10 +724,10 @@ class Pipe:
             if alterou:
                 # aux_2.append(aux)
                 #aux_2.append( [      aux    , class_img] )
-                
-                aux_2.append( [     np.uint8(np.array(aux).astype('uint8')*255)    , class_img] )
-
-                
+                if class_img == -1:
+                    aux_2.append(np.uint8(np.array(aux).astype('uint8')*255))
+                else:
+                    aux_2.append([np.uint8(np.array(aux).astype('uint8')*255),class_img])
                 #alterou = False #isso aqui é o fino-----------------------------
             else:
                 continue
@@ -733,10 +735,18 @@ class Pipe:
 
     def print(self):
         print(f"Operações:")
+        aux = True
         for operacao in self.lista_de_operacoes:
+            if aux:
+                head = {"   Operação   ": operacao.get_class_name()}
+                aux = False
+            else:
+                head = {"--------------": operacao.get_class_name()}
             atributos = operacao.get_dict_atrs()
-            op = {"Operação": operacao.get_class_name()}
-            op.update(atributos)
-            tabela = pd.DataFrame(data= op, index = [""])
-            display(tabela)
+            head.update(atributos)
+            table = PrettyTable( head.keys() )
+            table.set_style(MSWORD_FRIENDLY)
+            table.add_row( head.values() )
+            print(table)
+            print()
         print()

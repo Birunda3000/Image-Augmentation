@@ -1,34 +1,44 @@
-# import sys
 import threading
 import math
-# from threading import Thread, Lock
-# import time
-# import random
-
 import matplotlib.pyplot as plt
 
-def print_list_img(lista_de_imagens, classes=None):
-    linha = 6
-    coluna = 6
+def print_list_img(lista_de_imagens, classes:list=None, imagens_por_linha:int=6, imagens_por_coluna:int=6):
+    linha = imagens_por_linha
+    coluna = imagens_por_coluna
     numero = math.ceil( len(lista_de_imagens)/ (linha * coluna) )
-    if classes == None:
-        classes = range(len(lista_de_imagens))
-    print('Numero imagens na base - {}'.format(len(lista_de_imagens)))
-    for j in range(numero):
-        plt.figure(figsize=(10,10))
-        m = (linha * coluna)    
-        if( len(lista_de_imagens) < (linha * coluna) ):
-            m = len(lista_de_imagens)
-        for i in range(m):
-            plt.subplot(linha, coluna, i+1)
-            plt.xticks([])
-            plt.yticks([])
-            plt.grid(False)
-            plt.imshow(lista_de_imagens[i][0], cmap='gray')
-            plt.ylabel("Digito - {}".format( lista_de_imagens[i][1]), color='white')
-            plt.xlabel("{}".format( classes[lista_de_imagens[i][1]]), color='white')   
-        plt.show()
-        lista_de_imagens = lista_de_imagens[i:]
+    print('Numero imagens - {}'.format(len(lista_de_imagens)))
+    if classes != None:
+        if classes == None:
+            classes = range(len(lista_de_imagens))
+        for j in range(numero):
+            plt.figure(figsize=(10,10))
+            m = (linha * coluna)    
+            if( len(lista_de_imagens) < (linha * coluna) ):
+                m = len(lista_de_imagens)
+            for i in range(m):
+                plt.subplot(linha, coluna, i+1)
+                plt.xticks([])
+                plt.yticks([])
+                plt.grid(False)
+                plt.imshow(lista_de_imagens[i][0], cmap='gray')
+                plt.ylabel("Digito - {}".format( lista_de_imagens[i][1]), color='white')
+                plt.xlabel("{}".format( classes[lista_de_imagens[i][1]]), color='white')   
+            plt.show()
+            lista_de_imagens = lista_de_imagens[i:]
+    else:
+        for j in range(numero):
+            plt.figure(figsize=(10,10))
+            m = (linha * coluna)    
+            if( len(lista_de_imagens) < (linha * coluna) ):
+                m = len(lista_de_imagens)
+            for i in range(m):
+                plt.subplot(linha, coluna, i+1)
+                plt.xticks([])
+                plt.yticks([])
+                plt.grid(False)
+                plt.imshow(lista_de_imagens[i], cmap='gray')  
+            plt.show()
+            lista_de_imagens = lista_de_imagens[i:]
 
 class augmentor(threading.Thread):
     def __init__(self, augmentor_id: int, dados: list, times: int, pipe):
