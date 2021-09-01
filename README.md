@@ -42,16 +42,16 @@ pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 ```
 		
 * **Shift**
-	* Descrição
-	* Argumentos
+	* Descrição: 
+	* Argumentos: 
  
 * **Tilt**
 	* Descrição: 
 	* Argumentos: 
 
 * **Skew**
-	* Descrição
-	* Argumentos(prob=unive, skew_type='RANDOM', magnitude=0.9) )
+	* Descrição:
+	* Argumentos: (prob=unive, skew_type='RANDOM', magnitude=0.9) )
 
 * **Invert**
 	* Descrição: 
@@ -131,11 +131,6 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 * **image_per_image**: quantas imagens geradas para cada imagem original da base
 #### Saida:
 É um vetor (lista) na forma [imagem, classe], contendo as novas imagens geradas e as imagens originais (como são atribuidas probabilidades para as operações é possivel que nenhuma seja aplicada, neste caso a imagem não sera adicionada podendo gerar um numero de imagens menor que o esperado).
-
-
-
-
-
 
 #### A ser adicionado
 * salvar imagens geradas
