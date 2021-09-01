@@ -52,4 +52,4 @@ pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 	* Descrição
 	* Argumentos
 
---Usando com diversas threads--
+## Usando com diversas threads
