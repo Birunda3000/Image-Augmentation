@@ -1,9 +1,10 @@
 # Image-Augmentation
-# **--EM DESENVOLVIMENTO--**
+## **--EM DESENVOLVIMENTO--**
 
 Uma biblioteca para aumentar bases de dados de imagens
 ## Utilização
 Para utilizar a biblioteca
+
 Primeiro se importa biblioteca
 ```python
 import Aug
