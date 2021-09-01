@@ -46,8 +46,72 @@ pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 	* Argumentos
  
 * **Tilt**
+	* Descrição: 
+	* Argumentos: 
+
+* **Skew**
 	* Descrição
-	* Argumentos
+	* Argumentos(prob=unive, skew_type='RANDOM', magnitude=0.9) )
+
+* **Invert**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
+
+* **Brilho**
+	* Descrição: 
+	* Argumentos: (prob=unive, min_factor= 0.1, max_factor= 10))
+
+* **Color**
+	* Descrição: 
+	* Argumentos: (prob=unive, min_factor=-20, max_factor=20))
+
+* **Contrast**
+	* Descrição: 
+	* Argumentos: (prob=unive, min_factor=-5, max_factor=5) )
+
+* **Flip**
+	* Descrição: 
+	* Argumentos: (prob=unive))
+
+* **Shear**
+	* Descrição: 
+	* Argumentos: (prob=unive, max_shear_left = 30, max_shear_right = 30 ))
+
+* **Distort**
+	* Descrição: 
+	* Argumentos: (prob=unive, grid_width=4, grid_height=4, magnitude=8) )
+
+* **Zoom**
+	* Descrição: 
+	* Argumentos: (prob=unive, min_factor=1, max_factor=9) )
+
+* **Zoom_Random**
+	* Descrição: 
+	* Argumentos: (prob=unive, percentage_area=0.5, randomise=True))
+
+* **Random_Erasing**
+	* Descrição: 
+	* Argumentos: (prob=unive, rectangle_area=0.3, repetitions=3))
+
+* **Shift**
+	* Descrição: 
+	* Argumentos: (prob=unive, horizontal_max=0.8, vertical_max=0.8, randomise=True, fill='nearest') )
+
+* **Rotacao**
+	* Descrição: 
+	* Argumentos: (prob=unive, max_left_rotation=90, max_right_rotation=90, fill='edge') )
+
+* **Gaussian**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
+
+* **Edge**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
+
+* **Grey_Erosion**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
 
 ## Usando a função ```utils.call_thread()```
 A forma mais comoda de se utilizar é passando o objeto pipe criado para a função
