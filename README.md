@@ -142,11 +142,13 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 #### Saida:
 É um vetor (lista) na forma [imagem, classe], contendo as novas imagens geradas e as imagens originais (como são atribuidas probabilidades para as operações é possivel que nenhuma seja aplicada, neste caso a imagem não sera adicionada podendo gerar um numero de imagens menor que o esperado).
 
+## Usando a função ```utills.print_database()```
+
 #### A ser adicionado
 1.
 	* salvar imagens geradas
 	* opção de retornar apenas imagens geradas
 	* opção adicionar ou não imagens inalteradas
-	* limite de exibição de imagens (print)
+	* limite de exibição de imagens (utils.print_database)
 2.
 	* Aug usando redes GAN
