@@ -1,5 +1,5 @@
 # Image-Augmentation
---EM DESENVOLVIMENTO--
+**--EM DESENVOLVIMENTO--**
 
 Uma biblioteca para aumentar bases de dados de imagens
 ## Utilização
@@ -72,7 +72,7 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 
 
 
-#### A fazer
+#### A ser adicionado
 * salvar imagens geradas
 * opção de retornar apenas imagens geradas
 * opção adicionar ou não imagens inalteradas
