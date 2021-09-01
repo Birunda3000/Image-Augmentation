@@ -154,3 +154,5 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 	* limite de exibição de imagens (utils.print_database)
 2.
 	* Aug usando redes GAN
+
+*Para mais informações acesse a wiki do repositorio*
