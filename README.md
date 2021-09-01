@@ -144,6 +144,8 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 
 ## Usando a função ```utills.print_database()```
 
+## Dependencias
+
 #### A ser adicionado
 1.
 	* salvar imagens geradas
