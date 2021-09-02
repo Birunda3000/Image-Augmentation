@@ -129,6 +129,12 @@ pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 ```python
 pipe.add( Aug.Gaussian(prob=unive) )
 ```
+* **Random Noise**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
+```python
+pipe.add( Aug.Random_Noise(prob=unive)  )
+```
 * **Edge**
 	* Descrição: 
 	* Argumentos: (prob=unive) )
@@ -192,6 +198,7 @@ print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_po
 1.
 	* opção de retornar apenas imagens geradas
 	* opção adicionar ou não imagens inalteradas
+	* erro com matrizes muito pequenas 2x2,3x3...
 2.
 	* Aug usando redes GAN
 
