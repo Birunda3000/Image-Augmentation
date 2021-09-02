@@ -129,6 +129,12 @@ pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 ```python
 pipe.add( Aug.Gaussian(prob=unive) )
 ```
+* **Random Noise**
+	* Descrição: 
+	* Argumentos: (prob=unive) )
+```python
+pipe.add( Aug.Random_Noise(prob=unive)  )
+```
 * **Edge**
 	* Descrição: 
 	* Argumentos: (prob=unive) )
