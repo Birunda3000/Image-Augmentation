@@ -36,6 +36,8 @@ pipe.add( Aug.Edge(prob=unive) )
 #15
 pipe.add( Aug.Grey_Erosion(prob=unive) )
 #16
+pipe.add( Aug.Random_Noise(prob=unive)  )
+#17
 #_______________________________________________________Pipe exemplo 2_______________________________________________________
 pipe2 = Aug.Pipe()
 unive_2 = 0.3
