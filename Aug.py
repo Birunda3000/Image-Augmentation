@@ -14,8 +14,8 @@ from skimage import util
 from cv2 import Canny
 import cv2
 
-from prettytable import PrettyTable
-from prettytable import MSWORD_FRIENDLY
+#from prettytable import PrettyTable
+#from prettytable import MSWORD_FRIENDLY
 
 
 def skew(image, skew_type='RANDOM', magnitude=0.5):#***************************************************8        
@@ -707,7 +707,7 @@ class Pipe:
         self.lista_de_operacoes.pop(posicao)
     def replace(self, index, objeto):
         self.lista_de_operacoes[index] = objeto
-    def operar(self, image:list, class_img : int = -1, vezes = 1):#Não retorna a imagem original | Se a imagem não for modificada não é adicionada
+    def operar(self, image:list, class_img:int = -1, string_class = None, vezes = 1):#Não retorna a imagem original | Se a imagem não for modificada não é adicionada
         image = Image.fromarray(image)
         aux_2 = []
         alterou = False
@@ -725,22 +725,15 @@ class Pipe:
             if alterou:
                 # aux_2.append(aux)
                 #aux_2.append( [      aux    , class_img] )
-                if class_img == -1:
-                    #aux_2.append(np.uint8(np.array(aux).astype('uint8')*255))
-                    aux_2.append( aux )
-                else:
-                    #aux_2.append([np.uint8(np.array(aux).astype('uint8')*255),class_img])
-                    
-                    aux_2.append([aux,class_img])
-                    
-                    
+                aux_2.append([aux,class_img,string_class])  
                 #alterou = False #isso aqui é o fino-----------------------------
             else:
                 continue
         return aux_2
 #----------------------------------------------------------------------------------------------ATENÇÃO
-    def print(self):
+    def print_pipe(self):
         print(f"Operações:")
+        '''
         aux = True
         for operacao in self.lista_de_operacoes:
             if aux:
@@ -756,3 +749,4 @@ class Pipe:
             print(table)
             print()
         print()
+        '''

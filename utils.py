@@ -2,27 +2,36 @@ import threading
 import math
 import matplotlib.pyplot as plt
 
-def print_list_img(lista_de_imagens, classes:list=None, imagens_por_linha:int=6, imagens_por_coluna:int=6):
+def print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_por_coluna:int=6):#limite de imaens exibidas
     linha = imagens_por_linha
     coluna = imagens_por_coluna
     numero = math.ceil( len(lista_de_imagens)/ (linha * coluna) )
+    k=0
     print('Numero imagens - {}'.format(len(lista_de_imagens)))
-    if classes != None:
-        if classes == None:
-            classes = range(len(lista_de_imagens))
+    if len(lista_de_imagens[0]) > 1:
+#-------------------------------------------------------------------------------        
+        if lista_de_imagens[1]!=None:#     classes == None:
+            pass
+            #classes = range(len(lista_de_imagens))
+#-------------------------------------------------------------------------------         
         for j in range(numero):
             plt.figure(figsize=(10,10))
             m = (linha * coluna)    
             if( len(lista_de_imagens) < (linha * coluna) ):
                 m = len(lista_de_imagens)
             for i in range(m):
+                
+                k=k+1
+                if k > limite:
+                    break
+                
                 plt.subplot(linha, coluna, i+1)
                 plt.xticks([])
                 plt.yticks([])
                 plt.grid(False)
                 plt.imshow(lista_de_imagens[i][0], cmap='gray')
-                plt.ylabel("Digito - {}".format( lista_de_imagens[i][1]), color='white')
-                plt.xlabel("{}".format( classes[lista_de_imagens[i][1]]), color='white')   
+                plt.ylabel("Digito - {}".format( lista_de_imagens[i][1] ), color='white')
+                plt.xlabel("{}".format( lista_de_imagens[i][2] ), color='white')
             plt.show()
             lista_de_imagens = lista_de_imagens[i:]
     else:
@@ -32,6 +41,11 @@ def print_list_img(lista_de_imagens, classes:list=None, imagens_por_linha:int=6,
             if( len(lista_de_imagens) < (linha * coluna) ):
                 m = len(lista_de_imagens)
             for i in range(m):
+                
+                k=k+1
+                if k > limite:
+                    break
+                
                 plt.subplot(linha, coluna, i+1)
                 plt.xticks([])
                 plt.yticks([])
@@ -53,7 +67,7 @@ class augmentor(threading.Thread):
     def run(self):
         for i in range(len(self.dados)):
             self.result.append(self.dados[i])
-            self.result += self.pipe.operar(self.dados[i][0], self.dados[i][1], self.times)
+            self.result += self.pipe.operar(image=self.dados[i][0], class_img=self.dados[i][1], string_class=self.dados[i][2], vezes=self.times)
         print('Thread {}: Executada com sucesso'.format(self.meu_id))
         
         global result
@@ -65,7 +79,10 @@ def dividir_base(base, n):  # n = numero de itens por thread
 
 result = []
 
-def call_thread(img_per_thread, data, pipe_instance, image_per_image):
+def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1):#Se img_per_thread <= -1 = img_per_thread=len(data)
+    
+    if img_per_thread <= 0:
+        img_per_thread=len(data)
     
     global result
     
