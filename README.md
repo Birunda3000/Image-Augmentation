@@ -151,7 +151,6 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 	* salvar imagens geradas
 	* opção de retornar apenas imagens geradas
 	* opção adicionar ou não imagens inalteradas
-	* limite de exibição de imagens (utils.print_database)
 2.
 	* Aug usando redes GAN
 
