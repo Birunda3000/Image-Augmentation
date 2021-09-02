@@ -1,6 +1,7 @@
 import threading
 import math
 import matplotlib.pyplot as plt
+import pickle
 
 def print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_por_coluna:int=6):#limite de imaens exibidas
     linha = imagens_por_linha
@@ -79,7 +80,7 @@ def dividir_base(base, n):  # n = numero de itens por thread
 
 result = []
 
-def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1):#Se img_per_thread <= -1 = img_per_thread=len(data)
+def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1, salvar_imagens_gerada:bool=False, caminho:str=None):#Se img_per_thread <= -1 = img_per_thread=len(data)
     
     if img_per_thread <= 0:
         img_per_thread=len(data)
@@ -108,4 +109,12 @@ def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1
 
     x = result #quando se retorna result direto e se chama 2 vezes no codigo principal o retorno volta com o resultado das execuções anteriores 
     result = []
+
+    if salvar_imagens_gerada:
+        #print('Dados ainda não salvos em: ', caminho)    
+        pickle_out = open(caminho+".pickle","wb")
+        print('Arquivo gravado como: '+caminho+".pickle")
+        pickle.dump(data, pickle_out)
+        pickle_out.close()
+
     return x
