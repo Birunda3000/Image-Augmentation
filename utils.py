@@ -3,6 +3,8 @@ import math
 import matplotlib.pyplot as plt
 import pickle
 
+from tqdm import tqdm
+
 def print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_por_coluna:int=6):#limite de imaens exibidas
     linha = imagens_por_linha
     coluna = imagens_por_coluna
@@ -66,6 +68,7 @@ class augmentor(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
+        
         for i in range(len(self.dados)):
             self.result.append(self.dados[i])
             self.result += self.pipe.operar(image=self.dados[i][0], class_img=self.dados[i][1], string_class=self.dados[i][2], vezes=self.times)
