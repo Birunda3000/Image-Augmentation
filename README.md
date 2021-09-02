@@ -183,8 +183,28 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 
 ## Usando a função ```utills.print_database()```
 Para exibir uma lista de imagens
+* lista_de_imagens: Lista no formato [imagem] ou [imagem,classe,string_da_classe] 
+* limite=100: Limite de imagensa serem mostradas
+* imagens_por_linha:int=6:
+* imagens_por_coluna:int=6:
+```python
+print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_por_coluna:int=6):
+```
 
 ## Dependencias
+* Scypy
+* PIL
+* Pretty Table
+* pickle
+* open-cv (cv2)
+* skimage
+* numpy
+* matplotlib
+* random
+* os -
+* pathlib -
+* math -
+* threading
 
 #### A ser adicionado
 1.
