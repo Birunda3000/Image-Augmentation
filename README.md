@@ -36,33 +36,7 @@ pipe.replace(1, Aug.Flip(prob=0.5)) # Troca a segunda camada por 'Flip(prob=0.5)
 ```
 ## Operações
 ##### Toda operação vai receber um argumento " prob " que indica a probabilidade da operação ser aplicada ou não 
-* **Rotação**
-	* Descrição
-		*  Roda a imagem um numero de graus aleatorio no intervalo especificado
-	* Argumentos
-		*  max_left_rotation:
-			* Valor padrão: 90
-		* max_right_rotation:
-			* Valor padrão: 90
-		* fill:
-			* Valor padrão: 'edge'
-	* Exemplo de chamada
-```python
-pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
-```
-		
-* **Shift**
-	* Descrição: 
-	* Argumentos: 
-```python
 
-``` 
-* **Tilt**
-	* Descrição: 
-	* Argumentos: 
-```python
-
-```
 * **Skew**
 	* Descrição:
 	* Argumentos: (prob=unive, skew_type='RANDOM', magnitude=0.9) )
@@ -135,11 +109,19 @@ pipe.add(Aug.Random_Erasing(prob=unive, rectangle_area=0.3, repetitions=3))
 ```python
 pipe.add( Aug.Shift(prob=unive, horizontal_max=0.8, vertical_max=0.8, randomise=True, fill='nearest') )
 ```
-* **Rotacao**
-	* Descrição: 
-	* Argumentos: (prob=unive, max_left_rotation=90, max_right_rotation=90, fill='edge') )
+* **Rotação**
+	* Descrição
+		*  Roda a imagem um numero de graus aleatorio no intervalo especificado
+	* Argumentos
+		*  max_left_rotation:
+			* Valor padrão: 90
+		* max_right_rotation:
+			* Valor padrão: 90
+		* fill:
+			* Valor padrão: 'edge'
+	* Exemplo de chamada
 ```python
-pipe.add( Aug.Rotacao(prob=unive, max_left_rotation=90, max_right_rotation=90, fill='edge') )
+pipe.add(Aug.Rotacao(0.2, max_left_rotation=40, max_right_rotation=40))
 ```
 * **Gaussian**
 	* Descrição: 
