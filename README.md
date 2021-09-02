@@ -198,6 +198,7 @@ print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_po
 1.
 	* opção de retornar apenas imagens geradas
 	* opção adicionar ou não imagens inalteradas
+	* erro com matrizes muito pequenas 2x2,3x3...
 2.
 	* Aug usando redes GAN
 
