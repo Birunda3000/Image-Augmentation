@@ -490,12 +490,6 @@ from random import randint
 
 from skimage import util
 
-# COMMAND ----------
-
-import Aug
-
-# COMMAND ----------
-
 class Operacao:
     #prob = 0
     def __init__(self, prob):
