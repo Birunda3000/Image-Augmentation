@@ -169,7 +169,7 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 #### Saida:
 É um vetor (lista) na forma [imagem, classe], contendo as novas imagens geradas e as imagens originais (como são atribuidas probabilidades para as operações é possivel que nenhuma seja aplicada, neste caso a imagem não sera adicionada podendo gerar um numero de imagens menor que o esperado).
 
-## Usando a função ```utills.print_database()```
+## Usando a função ```utils.print_database()```
 Para exibir uma lista de imagens
 * lista_de_imagens: Lista no formato [imagem] ou [imagem,classe,string_da_classe] 
 * limite=100: Limite de imagensa serem mostradas
