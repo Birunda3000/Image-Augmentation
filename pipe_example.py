@@ -40,7 +40,7 @@ pipe.add( Aug.Random_Noise(prob=unive)  )
 #17
 #_______________________________________________________Pipe exemplo 2_______________________________________________________
 pipe2 = Aug.Pipe()
-unive_2 = 0.3
+unive_2 = 1
 pipe2.add( Aug.Skew(prob=unive_2, skew_type='RANDOM', magnitude=0.5) )
 #1
 pipe2.add( Aug.Invert(prob=unive_2) )

@@ -11,7 +11,8 @@ def print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagen
     numero = math.ceil( len(lista_de_imagens)/ (linha * coluna) )
     k=0
     print('Numero imagens - {}'.format(len(lista_de_imagens)))
-    if len(lista_de_imagens[0]) > 1:
+    
+    if len(lista_de_imagens[0]) >= 1:
 #-------------------------------------------------------------------------------        
         if lista_de_imagens[1]!=None:#     classes == None:
             pass
@@ -58,11 +59,12 @@ def print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagen
             lista_de_imagens = lista_de_imagens[i:]
 
 class augmentor(threading.Thread):
-    def __init__(self, augmentor_id: int, dados: list, times: int, pipe):
+    def __init__(self, augmentor_id: int, dados: list, times: int, pipe, img_originais: bool=True):
         self.meu_id = augmentor_id
         self.dados = dados
         self.times = times#numero de imagens geradas por imagens dada
         self.pipe = pipe
+        self.img_originais = img_originais
         self.result = []
         # Atenção essa instrução deve ser chamada para iniciar a thread
         threading.Thread.__init__(self)
@@ -70,7 +72,10 @@ class augmentor(threading.Thread):
     def run(self):
         
         for i in range(len(self.dados)):
-            self.result.append(self.dados[i])
+            
+            if self.img_originais:
+                self.result.append(self.dados[i])
+            
             self.result += self.pipe.operar(image=self.dados[i][0], class_img=self.dados[i][1], string_class=self.dados[i][2], vezes=self.times)
         print('Thread {}: Executada com sucesso'.format(self.meu_id))
         
@@ -83,7 +88,7 @@ def dividir_base(base, n):  # n = numero de itens por thread
 
 result = []
 
-def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1, salvar_imagens_gerada:bool=False, caminho:str=None):#Se img_per_thread <= -1 = img_per_thread=len(data)
+def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1, salvar_imagens_gerada:bool=False, caminho:str=None, retornar_img_originais:bool=True):#Se img_per_thread <= -1 = img_per_thread=len(data)
     
     if img_per_thread <= 0:
         img_per_thread=len(data)
@@ -96,7 +101,7 @@ def call_thread(data, pipe_instance, img_per_thread:int=0, image_per_image:int=1
     numbers_of_threads = int( math.ceil( len(data) / img_per_thread ) )
 
     for i in range(numbers_of_threads):
-        new_augmentor = augmentor(augmentor_id = i, dados = data_array[i], times = image_per_image, pipe = pipe_instance)
+        new_augmentor = augmentor(augmentor_id = i, dados = data_array[i], times = image_per_image, pipe = pipe_instance, img_originais=retornar_img_originais)
         threads.append(new_augmentor)
         new_augmentor.start()
     for t in threads:
