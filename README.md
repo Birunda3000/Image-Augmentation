@@ -203,6 +203,6 @@ print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_po
 	* print_img_list: erro
 	* barra de progresso
 2.
-	* Aug usando redes GAN
+	* Modulo de Aug usando redes GAN
 
 *Para mais informações acesse a wiki do repositorio*
