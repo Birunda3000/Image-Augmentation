@@ -165,6 +165,7 @@ resultado = utils.call_thread(img_per_thread = 100, data = data, pipe_instance =
 * **image_per_image:int=1**: quantas imagens geradas para cada imagem original da base
 * **salvar_imagens_gerada:bool=False**: Salvar imagens geradas (.pickle) 
 * **caminho:str=None**: Caminho para salvar a imagem
+* **retornar_img_originais:bool**: True=retorna imagens originais junto com as criadas, False=não retorna
 
 #### Saida:
 É um vetor (lista) na forma [imagem, classe], contendo as novas imagens geradas e as imagens originais (como são atribuidas probabilidades para as operações é possivel que nenhuma seja aplicada, neste caso a imagem não sera adicionada podendo gerar um numero de imagens menor que o esperado).
@@ -196,7 +197,6 @@ print_list_img(lista_de_imagens, limite=100, imagens_por_linha:int=6, imagens_po
 
 #### A ser adicionado
 1.
-	* opção de retornar apenas imagens geradas
 	* opção adicionar ou não imagens inalteradas
 	* erro com matrizes muito pequenas 2x2,3x3...
 	* revisar: operar->aux
