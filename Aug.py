@@ -14,8 +14,8 @@ from skimage import util
 from cv2 import Canny
 import cv2
 
-#from prettytable import PrettyTable
-#from prettytable import MSWORD_FRIENDLY
+from prettytable import PrettyTable
+from prettytable import MSWORD_FRIENDLY
 
 
 def skew(image, skew_type='RANDOM', magnitude=0.5):#***************************************************8        
@@ -731,7 +731,7 @@ class Pipe:
 #----------------------------------------------------------------------------------------------ATENÇÃO
     def print_pipe(self):
         print(f"Operações:")
-        '''
+
         aux = True
         for operacao in self.lista_de_operacoes:
             if aux:
@@ -747,4 +747,3 @@ class Pipe:
             print(table)
             print()
         print()
-        '''
