@@ -31,7 +31,7 @@ pipe.remove(1) # Remove a segunda camada
 ```
 * ```replace()``` Troca a camada na posição dada no primeiro argumento pela outra dada como segundo argumento 
 ```python
-pipe.replace(0, Aug.Contrast(prob=0.9, min_factor=-5, max_factor=5) ) # Troca a primiera camada pela camada 'Contrast(prob=0.9, min_factor=-5, max_factor=5)'
+pipe.replace(0, Aug.Contrast(prob=0.9, min_factor=-5, max_factor=5) ) # Troca a primeira camada pela camada 'Contrast(prob=0.9, min_factor=-5, max_factor=5)'
 pipe.replace(1, Aug.Flip(prob=0.5)) # Troca a segunda camada por 'Flip(prob=0.5)'
 ```
 ## Operações
