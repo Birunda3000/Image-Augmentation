@@ -1,0 +1,33 @@
+Skew
+
+Invert
+
+Brilho
+
+Color
+
+Contrast
+
+Flip
+
+pipe.add(Aug.Shear(prob=unive, max_shear_left = 30, max_shear_right = 30 ))
+#7
+pipe.add( Aug.Distort(prob=unive, grid_width=4, grid_height=4, magnitude=8) )
+#8
+pipe.add( Aug.Zoom(prob=unive, min_factor=1, max_factor=9) )
+#9
+pipe.add(Aug.Zoom_Random(prob=unive, percentage_area=0.5, randomise=True))
+#10
+pipe.add(Aug.Random_Erasing(prob=unive, rectangle_area=0.3, repetitions=3))
+#11
+pipe.add( Aug.Shift(prob=unive, horizontal_max=0.8, vertical_max=0.8, randomise=True, fill='nearest') )
+#12
+pipe.add( Aug.Rotacao(prob=unive, max_left_rotation=90, max_right_rotation=90, fill='edge') )
+#13
+pipe.add( Aug.Gaussian(prob=unive) )
+#14
+pipe.add( Aug.Edge(prob=unive) )
+#15
+pipe.add( Aug.Grey_Erosion(prob=unive) )
+#16
+pipe.add( Aug.Random_Noise(prob=unive)  )
