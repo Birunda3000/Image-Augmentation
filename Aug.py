@@ -307,8 +307,8 @@ def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#**************
             polygon_indices.append([i, i + 1, i + horizontal_tiles, i + 1 + horizontal_tiles])
 
     for a, b, c, d in polygon_indices:
-        dx = random.randint(-magnitude, magnitude)
-        dy = random.randint(-magnitude, magnitude)
+        dx = random.randint(-magnitude, magnitude)#random part
+        dy = random.randint(-magnitude, magnitude)#random part
 
         x1, y1, x2, y2, x3, y3, x4, y4 = polygons[a]
         polygons[a] = [x1, y1,
@@ -340,8 +340,10 @@ def distort(image, grid_width=15, grid_height=15, magnitude=0.8):#**************
     return image.transform(image.size, Image.MESH, generated_mesh, resample=Image.BICUBIC)
 
 def center_zoom(image, min_factor=1, max_factor=1):#***************************************************8
+    
     min_factor = min_factor
     max_factor = max_factor
+
 
     factor = round(random.uniform(min_factor, max_factor), 2)
 
@@ -407,8 +409,8 @@ def shifts(image_in, horizontal_max=0.2, vertical_max=0.2, randomise=False, fill
         horizontal_shift = random.uniform(-abs( horizontal_max * width ), abs( horizontal_max * width ))
         vertical_shift = random.uniform(-abs( vertical_max * height ), abs( vertical_max * height ))
     else:
-        horizontal_shift = horizontal_max
-        vertical_shift = vertical_max
+        horizontal_shift = horizontal_max * width
+        vertical_shift = vertical_max * height
     
     if image_in.mode == 'RGB':
         image = shift(image, [vertical_shift, horizontal_shift, 0],  cval=0, mode=fill)
